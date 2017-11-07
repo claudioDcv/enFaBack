@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Django Simple Login{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'node_modules/bootstrap/dist/css/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'node_modules/font-awesome/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'theme.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/logout/">{{ user.username }}</a>
+          </li>
+        </ul>
+      </form>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </div>
+  <footer>
+    enFa
+  </footer>
+
+  <script src="{% static 'jscolor-2.0.4/jscolor.min.js' %}" charset="utf-8"></script>
+  <script src="{% static 'main.js' %}" charset="utf-8"></script>
+</body>
+</html>

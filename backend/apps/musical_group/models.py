@@ -1,6 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+class MusicalInstrument(models.Model):
+    name = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name = 'Instrumento Musical'
+        verbose_name_plural = 'Instrumentos Musicales'
+
+    def __str__(self):
+        return self.name
+
+
 class MusicalStyle(models.Model):
     name = models.CharField(max_length=255)
 
@@ -12,13 +24,37 @@ class MusicalStyle(models.Model):
         return self.name
 
 
+class UserMusicalInstrumentStyle(models.Model):
+    user = models.ForeignKey(User)
+    musical_styles = models.ManyToManyField(MusicalStyle)
+    musical_instruments = models.ManyToManyField(
+        MusicalInstrument,
+        related_name='musical_instrument',
+    )
+
+    class Meta:
+        verbose_name = 'Musico Intrumento y Estilo'
+        verbose_name_plural = 'Musicos Instrumento y Estilos'
+
+    def __str__(self):
+        return self.user.username
+
+
 class MusicalGroup(models.Model):
     name = models.CharField(max_length=255)
     color = models.CharField(max_length=10)
     musical_styles = models.ManyToManyField(MusicalStyle)
-    directors = models.ManyToManyField(User)
-    guest_musician = models.ManyToManyField(User, related_name='guest_musicians', blank=True)
-    permanent_musician = models.ManyToManyField(User, related_name='permanent_musicians', blank=True)
+    directors = models.ManyToManyField(UserMusicalInstrumentStyle)
+    guest_musician = models.ManyToManyField(
+        UserMusicalInstrumentStyle,
+        related_name='guest_musicians',
+        blank=True,
+    )
+    permanent_musician = models.ManyToManyField(
+        UserMusicalInstrumentStyle,
+        related_name='permanent_musicians',
+        blank=True,
+    )
 
     class Meta:
         verbose_name = 'Grupo Musical'
@@ -33,8 +69,16 @@ class Song(models.Model):
     color = models.CharField(max_length=10)
     musical_styles = models.ManyToManyField(MusicalStyle)
     musical_group = models.ForeignKey(MusicalGroup, related_name='songs')
-    guest_musician = models.ManyToManyField(User, related_name='song_guest_musicians', blank=True)
-    permanent_musician = models.ManyToManyField(User, related_name='song_permanent_musicians', blank=True)
+    guest_musician = models.ManyToManyField(
+        UserMusicalInstrumentStyle,
+        related_name='song_guest_musicians',
+        blank=True,
+    )
+    permanent_musician = models.ManyToManyField(
+        UserMusicalInstrumentStyle,
+        related_name='song_permanent_musicians',
+        blank=True,
+    )
 
     class Meta:
         verbose_name = 'Tema'

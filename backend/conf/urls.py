@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required, permission_required
-from apps.musical_group.views import HomeView, MusicalGroupView, MusicalGroupPermanentView, MusicalGroupGuestView, SongView
+from apps.musical_group.views import HomeView, MusicalGroupView, MusicalGroupPermanentView, MusicalGroupGuestView, SongView, SongEditView
 from django.contrib.auth import views as auth_views
 
 
@@ -29,5 +29,10 @@ urlpatterns = [
         r'^home/song/(?P<song_id>\w{0,50})/$',
         login_required(SongView.as_view()),
         name='song',
+    ),
+    url(
+        r'^home/song/(?P<pk>\w{0,50})/edit/$',
+        login_required(SongEditView.as_view()),
+        name='song-edit',
     ),
 ]

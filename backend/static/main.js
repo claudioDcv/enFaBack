@@ -97,11 +97,12 @@ ajaxForms.forEach(function(e){
     event.preventDefault()
     var url = event.target.action;
     var data = serializeForm(event.target);
+    data.creation_date = data.creation_date.split("/").reverse().join("-");
     var successUrl = event.target.dataset.success;
     console.log(url);
     console.log(serializeForm(event.target));
         $.ajax({
-        type: "put",
+        type: "patch",
         url: url,
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
@@ -116,3 +117,34 @@ ajaxForms.forEach(function(e){
     });
   }, false)
 })
+
+
+
+
+window.addEventListener('DOMContentLoaded', function()
+        {
+            var $min = document.querySelector('#id_creation_date');
+            if ($min) {
+              // $max = document.querySelector('.real [name="realDPX-max"]');
+              $min.DatePickerX.init({
+                  mondayFirst: true,
+                  // minDate    : new Date(2017, 8, 13),
+                  format: 'dd/mm/yyyy',
+                  // maxDate    : $max
+              });
+              // $max.DatePickerX.init({
+              //     mondayFirst: true,
+              //     minDate    : $min,
+              //     //maxDate    : new Date(2017, 4, 25)
+              // });
+            }
+
+            if (document.querySelector('[name="duration"]')) {
+              window.picker = new JsTimepicker(document.querySelector('[name="duration"]'), {
+                hourLeadingZero: true,
+                hourStep: 1,
+                minuteLeadingZero: true,
+                minuteStep: 5,
+              });
+            }
+        });

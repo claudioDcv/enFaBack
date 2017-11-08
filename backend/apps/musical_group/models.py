@@ -72,6 +72,8 @@ class MusicalGroup(models.Model):
 
 class Song(models.Model):
     name = models.CharField(max_length=255)
+    duration = models.DurationField()
+    creation_date = models.DateField()
     color = models.CharField(max_length=10)
     musical_styles = models.ManyToManyField(MusicalStyle)
     musical_group = models.ForeignKey(MusicalGroup, related_name='songs')

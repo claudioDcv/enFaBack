@@ -115,6 +115,23 @@ td .color-bullet{
 .select2, .select2-container {
   color: #424242;
 }
+
+.js-t {
+  border: 1px solid #2c3f51;
+  border-bottom-color: #2c3f51;
+  background: #505e6c;
+}
+
+.date-picker-x.active {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    height: 430px;
+}
 /**
  * Footer Styles
  */

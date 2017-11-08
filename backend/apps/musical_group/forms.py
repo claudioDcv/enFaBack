@@ -29,7 +29,7 @@ class SongForm(forms.ModelForm):
     class Meta:
         model = Song  # with attr somedata
         fields = '__all__'
-        exclude = ('musical_styles',)
+        exclude = ('musical_styles', 'musical_group')
 
     def valid_color(self):
         # send email using the self.cleaned_data dictionary

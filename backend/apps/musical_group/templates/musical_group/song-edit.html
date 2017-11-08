@@ -9,6 +9,7 @@
   method="post"
   class="form-view ajax-form" id="form-song-edit"
 >
+    {% csrf_token %}
     {{ form.as_table }}
     <select
      data-type="multiselect"

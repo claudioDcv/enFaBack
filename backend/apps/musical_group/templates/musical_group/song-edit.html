@@ -7,9 +7,10 @@
 <form action="" method="post" class="form-view" id="form-song-edit">{% csrf_token %}
     {{ form.as_p }}
     <select
+     data-type="multiselect"
      class="form-control js-data-example-ajax"
      name="musical_styles"
-     required=""
+     required
      id="id_musical_styles"
      multiple="multiple"
      ></select>
@@ -36,7 +37,7 @@
   });
   document.getElementById('form-song-edit').addEventListener('submit', event => {
     event.preventDefault()
-    console.log(event);
+    console.log(serializeForm(event.target));
   }, false)
 </script>
 {% endblock %}

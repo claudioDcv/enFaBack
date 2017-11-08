@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required, permission_required
 from apps.musical_group.views import HomeView, MusicalGroupView, MusicalGroupPermanentView, MusicalGroupGuestView, SongView, SongEditView
@@ -35,4 +35,5 @@ urlpatterns = [
         login_required(SongEditView.as_view()),
         name='song-edit',
     ),
+    url(r'^api/', include('apps.api.urls', namespace='api'))
 ]

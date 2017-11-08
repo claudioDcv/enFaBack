@@ -98,10 +98,22 @@ body {
   height: 12px;
   margin: 0 6px 0 0;
 }
+
+.form-view {
+  width: 100%;
+  background: rgb(79, 94, 108);
+  border-radius: 5px;
+  padding: 15px;
+}
+
 td .color-bullet{
   width: 10px;
   height: 10px;
   margin: 0 6px 0 0;
+}
+
+.select2, .select2-container {
+  color: #424242;
 }
 /**
  * Footer Styles

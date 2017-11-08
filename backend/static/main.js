@@ -2,6 +2,16 @@ var serializeForm = function(form, opt) {
     if (!form || form.nodeName !== "FORM") {
         return;
     }
+
+    var enc = function(data){
+      if (opt) {
+        if (opt.encodeURIComponent) {
+          return encodeURIComponent(data);
+        }
+      }
+      return data;
+    }
+
     var i, j,
         obj = {};
     for (i = form.elements.length - 1; i >= 0; i = i - 1) {
@@ -17,12 +27,12 @@ var serializeForm = function(form, opt) {
                     case 'button':
                     case 'reset':
                     case 'submit':
-                        obj[form.elements[i].name] = encodeURIComponent(form.elements[i].value);
+                        obj[form.elements[i].name] = enc(form.elements[i].value);
                         break;
                     case 'checkbox':
                     case 'radio':
                         if (form.elements[i].checked) {
-                            obj[form.elements[i].name] = encodeURIComponent(form.elements[i].value);
+                            obj[form.elements[i].name] = enc(form.elements[i].value);
                         }
                         break;
                     case 'file':
@@ -30,18 +40,18 @@ var serializeForm = function(form, opt) {
                 }
                 break;
             case 'TEXTAREA':
-                obj[form.elements[i].name] = encodeURIComponent(form.elements[i].value);
+                obj[form.elements[i].name] = enc(form.elements[i].value);
                 break;
             case 'SELECT':
                 switch (form.elements[i].type) {
                   case 'select-one':
-                      obj[form.elements[i].name] = encodeURIComponent(form.elements[i].value);
+                      obj[form.elements[i].name] = enc(form.elements[i].value);
                       break;
                   case 'select-multiple':
                       obj[form.elements[i].name] = []
                       for (j = form.elements[i].options.length - 1; j >= 0; j = j - 1) {
                           if (form.elements[i].options[j].selected) {
-                              obj[form.elements[i].name].push(encodeURIComponent(form.elements[i].options[j].value));
+                              obj[form.elements[i].name].push(enc(form.elements[i].options[j].value));
                           }
                       }
                       break;
@@ -52,7 +62,7 @@ var serializeForm = function(form, opt) {
                     case 'reset':
                     case 'submit':
                     case 'button':
-                        obj[form.elements[i].name] = encodeURIComponent(form.elements[i].value);
+                        obj[form.elements[i].name] = enc(form.elements[i].value);
                         break;
                 }
                 break;
@@ -60,3 +70,49 @@ var serializeForm = function(form, opt) {
     }
     return obj;
 }
+
+
+
+
+$('.select2').select2({
+  multiple: true,
+  ajax: {
+    url: '/api/musical-styles/',
+    dataType: 'json',
+    processResults: function (data) {
+    // Tranforms the top-level key of the response object from 'items' to 'results'
+      return {
+        results: data.map(e => ({ id: e.id, text: e.name }))
+      };
+    }
+    // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+  }
+});
+
+
+var ajaxForms = document.querySelectorAll('form.ajax-form');
+
+ajaxForms.forEach(function(e){
+  e.addEventListener('submit', event => {
+    event.preventDefault()
+    var url = event.target.action;
+    var data = serializeForm(event.target);
+    var successUrl = event.target.dataset.success;
+    console.log(url);
+    console.log(serializeForm(event.target));
+        $.ajax({
+        type: "put",
+        url: url,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        headers: {
+          'X-CSRFToken': data.csrfmiddlewaretoken,
+        },
+        data: JSON.stringify(data),
+        success: function(result) {
+            console.log(result);
+            window.location.href = successUrl;
+        }
+    });
+  }, false)
+})

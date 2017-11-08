@@ -23,6 +23,12 @@ class MusicalStyle(models.Model):
     def __str__(self):
         return self.name
 
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "text": self.name,
+        }
+
 
 class UserMusicalInstrumentStyle(models.Model):
     user = models.ForeignKey(User)

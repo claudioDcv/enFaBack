@@ -20,6 +20,12 @@ class SongForm(forms.ModelForm):
         }),
     )
 
+    # musical_styles = forms.MultipleChoiceField(
+    #     widget=forms.SelectMultiple(attrs={
+    #         'class': 'form-control js-data-example-ajax',
+    #     }),
+    # )
+
     class Meta:
         model = Song  # with attr somedata
         fields = '__all__'

@@ -1,11 +1,12 @@
 from django.conf.urls import url, include
 from rest_framework import routers
-from apps.api.views import UserViewSet, MusicalStyleViewSet
+from apps.api.views import UserViewSet, MusicalStyleViewSet, SongViewSet
 
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'musical-styles', MusicalStyleViewSet)
+router.register(r'songs', SongViewSet)
 
 
 # Wire up our API using automatic URL routing.

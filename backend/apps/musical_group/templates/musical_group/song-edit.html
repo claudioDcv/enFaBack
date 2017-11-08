@@ -3,41 +3,28 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-
-<form action="" method="post" class="form-view" id="form-song-edit">{% csrf_token %}
-    {{ form.as_p }}
+<form
+  data-success="/home/song/{{form.initial.id}}/"
+  action="/api/songs/{{form.initial.id}}/"
+  method="post"
+  class="form-view ajax-form" id="form-song-edit"
+>
+    {{ form.as_table }}
     <select
      data-type="multiselect"
-     class="form-control js-data-example-ajax"
+     class="form-control select2"
      name="musical_styles"
      required
      id="id_musical_styles"
      multiple="multiple"
-     ></select>
+     >
+     {% for musical_style in musical_styles %}
+      <option selected value="{{ musical_style.id }}">{{ musical_style.name }}</option>
+     {% endfor %}
+    </select>
     <hr />
     <input id="input-song-edit" type="submit" value="Guardar" class="btn btn-success" />
 </form>
 
-{% endblock %}
-{% block scrips %}
-<script type="text/javascript">
-  $('.js-data-example-ajax').select2({
-    multiple: true,
-    ajax: {
-      url: '/api/musical-styles/',
-      dataType: 'json',
-      processResults: function (data) {
-      // Tranforms the top-level key of the response object from 'items' to 'results'
-        return {
-          results: data.map(e => ({ id: e.id, text: e.name }))
-        };
-      }
-      // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
-    }
-  });
-  document.getElementById('form-song-edit').addEventListener('submit', event => {
-    event.preventDefault()
-    console.log(serializeForm(event.target));
-  }, false)
-</script>
+
 {% endblock %}

@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.shortcuts import redirect
 from apps.musical_group.forms import SongForm
 from django.views.generic.edit import UpdateView
+import json
 
 
 class HomeView(TemplateView):
@@ -93,6 +94,13 @@ class SongEditView(UpdateView):
     form_class = SongForm
     success_url = '/home/song/'
     model = Song
+
+    def get_context_data(self, **kwargs):
+        context = super(SongEditView, self).get_context_data(**kwargs)
+    #     # context['a'] = self.model.objects
+    #     dictionaries = [obj.as_dict() for obj in context['object'].musical_styles.all()]
+        context['musical_styles'] = context['object'].musical_styles.all()
+        return context
 
     def dispatch(self, request, *args, **kwargs):
         """ Making sure that only authors can update stories """

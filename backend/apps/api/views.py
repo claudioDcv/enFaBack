@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets
-from apps.api.serializers import UserSerializer, MusicalStyleSerializer
-from apps.musical_group.models import MusicalStyle
+from apps.api.serializers import UserSerializer, MusicalStyleSerializer, SongSerializer
+from apps.musical_group.models import MusicalStyle, Song
+# from rest_framework.views import APIView
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -25,3 +26,8 @@ class MusicalStyleViewSet(viewsets.ReadOnlyModelViewSet):
         else:
             queryset = queryset[:10]
         return queryset
+
+
+class SongViewSet(viewsets.ModelViewSet):
+    queryset = Song.objects.all()
+    serializer_class = SongSerializer

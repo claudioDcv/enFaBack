@@ -100,6 +100,8 @@ class SongEditView(UpdateView):
     #     # context['a'] = self.model.objects
     #     dictionaries = [obj.as_dict() for obj in context['object'].musical_styles.all()]
         context['musical_styles'] = context['object'].musical_styles.all()
+        context['guest_musician'] = context['object'].guest_musician.all()
+        context['permanent_musician'] = context['object'].permanent_musician.all()
         return context
 
     def dispatch(self, request, *args, **kwargs):

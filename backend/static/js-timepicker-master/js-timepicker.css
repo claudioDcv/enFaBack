@@ -35,8 +35,18 @@
 	width: 164px;
 	height: 100%;
 }
+.js-t .js-t-second-container{
+	position: relative;
+	float: left;
+	width: 164px;
+	height: 100%;
+}
 
 .js-t .js-t-minute-container{
+	width: 87px;
+	margin-left: 10px;
+}
+.js-t .js-t-second-container{
 	width: 87px;
 	margin-left: 10px;
 }
@@ -53,10 +63,28 @@
 	text-align: center;
 }
 
+.js-t .js-t-second{
+	font-size: 14px;
+	line-height: 16px;
+	float: left;
+	width: 21px;
+	height: 20px;
+	padding: 3px;
+	cursor: pointer;
+	text-align: center;
+}
+
 .js-t .js-t-hour.active,
 .js-t .js-t-minute.active,
 .js-t .js-t-hour:hover,
 .js-t .js-t-minute:hover {
+	color: #fff;
+	border-radius: 3px;
+	background: #ff8000;
+}
+
+.js-t .js-t-second.active,
+.js-t .js-t-second:hover {
 	color: #fff;
 	border-radius: 3px;
 	background: #ff8000;

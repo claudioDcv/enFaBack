@@ -26,6 +26,18 @@
    {
       "model":"musical_group.musicalstyle",
       "fields":{
+         "name":"HIP HOP"
+      }
+   },
+   {
+      "model":"musical_group.musicalstyle",
+      "fields":{
+         "name":"Arabe"
+      }
+   },
+   {
+      "model":"musical_group.musicalstyle",
+      "fields":{
          "name":"Reggae"
       }
    },
@@ -110,6 +122,12 @@
    {
       "model":"musical_group.musicalstyle",
       "fields":{
+         "name":"Bossa Nova"
+      }
+   },
+   {
+      "model":"musical_group.musicalstyle",
+      "fields":{
          "name":"Banda Sonora (películas)"
       }
    },
@@ -141,6 +159,12 @@
       "model":"musical_group.musicalstyle",
       "fields":{
          "name":"Rock Latino"
+      }
+   },
+   {
+      "model":"musical_group.musicalstyle",
+      "fields":{
+         "name":"Agro Metal"
       }
    },
    {
@@ -189,6 +213,12 @@
       "model":"musical_group.musicalstyle",
       "fields":{
          "name":"Cumbia"
+      }
+   },
+   {
+      "model":"musical_group.musicalstyle",
+      "fields":{
+         "name":"Post Rock"
       }
    },
    {

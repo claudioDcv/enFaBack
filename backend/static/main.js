@@ -72,22 +72,45 @@ var serializeForm = function(form, opt) {
 }
 
 
-
-
-$('.select2').select2({
-  multiple: true,
-  ajax: {
-    url: '/api/musical-styles/',
-    dataType: 'json',
-    processResults: function (data) {
-    // Tranforms the top-level key of the response object from 'items' to 'results'
-      return {
-        results: data.map(e => ({ id: e.id, text: e.name }))
-      };
-    }
-    // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+var select2 = function(elm, url, remap) {
+  var $elm = $(elm);
+  if ($elm) {
+    $elm.select2({
+      multiple: true,
+      ajax: {
+        url: url,
+        dataType: 'json',
+        processResults: function (data) {
+        // Tranforms the top-level key of the response object from 'items' to 'results'
+          return {
+            results: data.map(remap)
+          };
+        }
+        // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+      }
+    });
   }
+}
+
+select2('#id_musical_styles', '/api/musical-styles/',function(e) {
+  return {
+    id: e.id,
+    text: e.name,
+  };
 });
+select2('#id_permanent_musician', '/api/users-musical-instrument-style/',function(e) {
+  return {
+    id: e.id,
+    text: e.user.username,
+  };
+});
+select2('#id_guest_musician', '/api/users-musical-instrument-style/',function(e) {
+  return {
+    id: e.id,
+    text: e.user.username,
+  };
+});
+
 
 
 var ajaxForms = document.querySelectorAll('form.ajax-form');
@@ -123,7 +146,7 @@ ajaxForms.forEach(function(e){
 
 window.addEventListener('DOMContentLoaded', function()
         {
-            var $min = document.querySelector('#id_creation_date');
+            var $min = document.querySelector('.datepicker');
             if ($min) {
               // $max = document.querySelector('.real [name="realDPX-max"]');
               $min.DatePickerX.init({
@@ -144,7 +167,7 @@ window.addEventListener('DOMContentLoaded', function()
                 hourLeadingZero: true,
                 hourStep: 1,
                 minuteLeadingZero: true,
-                minuteStep: 5,
+                minuteStep: 1,
               });
             }
         });

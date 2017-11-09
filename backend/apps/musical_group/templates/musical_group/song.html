@@ -15,7 +15,9 @@
   </h2>
   <p>Grupo {{ song.musical_group.name }}</p>
   <div class="musical-styles">
-    <small>{{ song.musical_styles.all|join:", " }}</small>
+    <small>Estilos: {{ song.musical_styles.all|join:", " }}</small><br />
+    <small>Duración: {{ song.duration }}</small><br />
+    <small>Fecha Creación: {{ song.creation_date }}</small><br />
   </div>
 
 

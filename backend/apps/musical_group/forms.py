@@ -20,6 +20,20 @@ class SongForm(forms.ModelForm):
         }),
     )
 
+    duration = forms.CharField(
+        label='Duración',
+        max_length=10,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+        }),
+    )
+
+    creation_date = forms.DateField(label='Fecha de Creación',
+        widget=forms.DateInput(attrs={
+            'class': 'form-control datepicker',
+        }),
+    )
+
     # musical_styles = forms.MultipleChoiceField(
     #     widget=forms.SelectMultiple(attrs={
     #         'class': 'form-control js-data-example-ajax',
@@ -29,7 +43,7 @@ class SongForm(forms.ModelForm):
     class Meta:
         model = Song  # with attr somedata
         fields = '__all__'
-        exclude = ('musical_styles', 'musical_group')
+        exclude = ('musical_styles', 'musical_group', 'permanent_musician', 'guest_musician')
 
     def valid_color(self):
         # send email using the self.cleaned_data dictionary

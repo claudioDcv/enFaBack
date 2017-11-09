@@ -24,10 +24,12 @@
                 hourLeadingZero: true,
                 hourStep: 1,
                 minuteLeadingZero: true,
-                minuteStep: 5
+                minuteStep: 1,
+                secondLeadingZero: true,
+                secondStep: 1,
             };
 
-            //apply options to settings 
+            //apply options to settings
             if (options) {
                 for (n in options) {
                     if (options.hasOwnProperty(n)) {
@@ -41,9 +43,10 @@
             this.isVisible = false;
             this.hourArray = this.getHoursArray(this.settings.hourStep, this.settings.hourLeadingZero);
             this.minuteArray = this.getMinutesArray(this.settings.minuteStep, this.settings.minuteLeadingZero);
+            this.secondArray = this.getSecondsArray(this.settings.secondStep, this.settings.secondLeadingZero);
             this.timepicker = this.makeTimepickerHtml();
             this.setEvents();
-            
+
             return this;
         };
 
@@ -89,13 +92,20 @@
                 this.setMinute(e.target.getAttribute('data-minute'));
                 return;
             }
+
+            if (e.target && e.target.getAttribute('data-second')) {
+                this.timepicker.querySelector('[data-second].active') && this.timepicker.querySelector('[data-second].active').classList.remove('active');
+                e.target.classList.add('active');
+                this.setSecond(e.target.getAttribute('data-second'));
+                return;
+            }
         },
         setEvents: function () {
             var self = this;
             self.show = this.show.bind(this);
             self.event_outClick = this.event_outClick.bind(this);
             self.event_clickOnPicker = this.event_clickOnPicker.bind(this);
-            
+
             Array.prototype.forEach.call(['click'], function (evt) {
                 self.handle.addEventListener(evt, self.show);
             });
@@ -131,12 +141,23 @@
                 retData.push(this.leadingZeroMinute(i));
             }
 
-            return retData; 
+            return retData;
+        },
+        getSecondsArray: function (step) {
+            var i, h = 60, retData = [];
+
+            step = step || 5;
+
+            for (i = 0; i < h; i += step) {
+                retData.push(this.leadingZeroSecond(i));
+            }
+
+            return retData;
         },
         getPosition: function (element) {
             var xPosition = 0,
                 yPosition = 0;
-          
+
             while(element) {
                 xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
                 yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
@@ -150,23 +171,32 @@
         },
         getElementTime: function (asString) {
             var timeObj = this.parseTime(this.handle.value);
-            return (asString ? timeObj.hour + ':' + timeObj.minute : timeObj);
+            return (asString ? timeObj.hour + ':' + timeObj.minute + ':' + timeObj.second : timeObj);
         },
         parseTime: function (timeString) {
+
             var timeObj = {
                 hour: timeString.split(':')[0] || '',
-                minute: timeString.split(':')[1] || ''
+                minute: timeString.split(':')[1] || '',
+                second: timeString.split(':')[2] || ''
             }
 
             timeObj.hour = this.leadingZeroHour(timeObj.hour);
             timeObj.minute = this.leadingZeroMinute(timeObj.minute);
+            timeObj.second = this.leadingZeroSecond(timeObj.second);
             return timeObj;
         },
         setHour: function (hour) {
-            this.handle.value = this.leadingZeroHour(hour) + ':' + this.getElementTime().minute;
+            this.handle.value = this.leadingZeroHour(hour) + ':' + this.getElementTime().minute + ':' + this.getElementTime().second;
         },
         setMinute: function (minute) {
-            this.handle.value = this.getElementTime().hour + ':' + this.leadingZeroMinute(minute);
+            this.handle.value = this.getElementTime().hour + ':' + this.leadingZeroMinute(minute) + ':' + this.getElementTime().second;
+        },
+        setSecond: function (second) {
+            this.handle.value = this.getElementTime().hour + ':' + this.getElementTime().minute + ':' + this.leadingZeroSecond(second);
+        },
+        leadingZeroSecond: function (num) {
+            return ((num === '') ? '' : (this.settings.secondLeadingZero ? ('0' + num.toString()).substr(-2) : num.toString()));
         },
         leadingZeroMinute: function (num) {
             return ((num === '') ? '' : (this.settings.minuteLeadingZero ? ('0' + num.toString()).substr(-2) : num.toString()));
@@ -175,19 +205,21 @@
             return ((num === '') ? '' : (this.settings.hourLeadingZero ? ('0' + num.toString()).substr(-2) : num.toString()));
         },
         validateTime: function (timeString) {
-            return new RegExp(/^\d{1,2}:\d{1,2}$/).test(timeString);
+            return new RegExp(/^\d{1,2}:\d{1,2}:\d{1,2}$/).test(timeString);
         },
         makeTimepickerHtml: function () {
 
             var container = document.createElement('div'),
                 hourContainer = document.createElement('div'),
                 minuteContainer = document.createElement('div'),
+                secondContainer = document.createElement('div'),
                 elem;
 
             container.setAttribute('class', 'js-t');
             container.setAttribute('id', this.name + '-' + this.handle.name);
             hourContainer.setAttribute('class', 'js-t-hour-container');
             minuteContainer.setAttribute('class', 'js-t-minute-container');
+            secondContainer.setAttribute('class', 'js-t-second-container');
 
             Array.prototype.forEach.call(this.hourArray, function (hour) {
                 elem = document.createElement('div');
@@ -205,11 +237,20 @@
                 minuteContainer.appendChild(elem);
             });
 
+            Array.prototype.forEach.call(this.secondArray, function (second) {
+                elem = document.createElement('div');
+                elem.setAttribute('class', 'js-t-second');
+                elem.setAttribute('data-second', second.toString());
+                elem.innerHTML = second;
+                secondContainer.appendChild(elem);
+            });
+
             container.appendChild(hourContainer);
             container.appendChild(minuteContainer);
+            container.appendChild(secondContainer);
 
             return container;
-            
+
         },
         show: function () {
 
@@ -218,7 +259,7 @@
             }
 
             document.body.appendChild(this.timepicker);
-            
+
             Array.prototype.forEach.call(this.timepicker.querySelectorAll('.active'), function (activeElem) {
                 activeElem.classList.remove('active');
             });
@@ -226,10 +267,12 @@
             var handlePos = this.getPosition(this.handle),
                 timeObj = this.getElementTime(),
                 activeHour = this.timepicker.querySelector('[data-hour="' + timeObj.hour + '"]'),
-                activeMinute = this.timepicker.querySelector('[data-minute="' + timeObj.minute + '"]');
+                activeMinute = this.timepicker.querySelector('[data-minute="' + timeObj.minute + '"]'),
+                activeSecond = this.timepicker.querySelector('[data-second="' + timeObj.second + '"]');
 
             activeHour && activeHour.classList.add('active');
             activeMinute && activeMinute.classList.add('active');
+            activeSecond && activeSecond.classList.add('active');
             this.timepicker.style.left = handlePos.x.toString() + 'px';
             this.timepicker.style.top = (handlePos.y + this.handle.offsetHeight).toString() + 'px';
             this.timepicker.classList.add('visible');
@@ -238,7 +281,7 @@
             return true;
         },
         hide: function () {
- 
+
             if (!this.isVisible) {
                 return false;
             }
@@ -259,7 +302,7 @@
         },
         setTime: function (hourOrTimeString, minute) {
             var timeObj = !minute ? this.parseTime(hourOrTimeString) : this.parseTime(hourOrTimeString.toString() + ':' + minute.toString());
-            
+
             // check to step value
             if ((timeObj.minute % this.settings.minuteStep)) {
                 console.error('Invalid time. Number does not match the minute step');
@@ -269,16 +312,21 @@
                 console.error('Invalid time. Number does not match the hour step');
                 return;
             }
+            if ((timeObj.second % this.settings.secondStep)) {
+                console.error('Invalid time. Number does not match the second step');
+                return;
+            }
 
             this.setHour(timeObj.hour);
             this.setMinute(timeObj.minute);
-            this.handle.value = timeObj.hour + ':' + timeObj.minute;
+            this.setSecond(timeObj.second);
+            this.handle.value = timeObj.hour + ':' + timeObj.minute + ':' + timeObj.second;
 
             this.isVisible && this.hide() && this.show();
         }
 
     };
-    
+
 
     root[common.className] = function () {
 
@@ -293,7 +341,7 @@
 
         var original = construct(Protected, arguments),
             Publicly = function () {};
-        
+
         Publicly.prototype = {};
         Array.prototype.forEach.call(common.publicMethods, function (member) {
             Publicly.prototype[member] = function () {

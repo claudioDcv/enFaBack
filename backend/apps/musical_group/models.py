@@ -43,7 +43,11 @@ class UserMusicalInstrumentStyle(models.Model):
         verbose_name_plural = 'Musicos Instrumento y Estilos'
 
     def __str__(self):
-        return self.user.username
+        instruments = [x.name for x in self.musical_instruments.all()]
+        return '{} {}'.format(
+        self.user.username,
+        instruments,
+    )
 
 
 class MusicalGroup(models.Model):

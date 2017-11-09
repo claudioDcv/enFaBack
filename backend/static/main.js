@@ -134,7 +134,12 @@ ajaxForms.forEach(function(e){
         },
         data: JSON.stringify(data),
         success: function(result) {
-            console.log(result);
+            var msg = {
+              obj: data,
+              model: 'song',
+              text: `Tema '${data.name}' actualizado con exito`
+            };
+            window.localStorage.setItem('msg',JSON.stringify(msg));
             window.location.href = successUrl;
         }
     });
@@ -170,4 +175,27 @@ window.addEventListener('DOMContentLoaded', function()
                 minuteStep: 1,
               });
             }
-        });
+
+            audiojs.events.ready(function() {
+              var as = audiojs.createAll();
+            });
+
+
+        var msg = window.localStorage.getItem('msg');
+        if (msg) {
+          window.localStorage.removeItem('msg');
+          var obj = JSON.parse(msg);
+          console.log(obj);
+          var html = `
+          <div class="alert alert-success" role="alert">
+            ${obj.text}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          `
+          $('#msg').html(html)
+        }
+
+
+});

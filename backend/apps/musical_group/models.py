@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from autoslug import AutoSlugField
 
 
 class MusicalInstrument(models.Model):
@@ -45,13 +46,14 @@ class UserMusicalInstrumentStyle(models.Model):
     def __str__(self):
         instruments = [x.name for x in self.musical_instruments.all()]
         return '{} {}'.format(
-        self.user.username,
-        instruments,
-    )
+            self.user.username,
+            instruments,
+        )
 
 
 class MusicalGroup(models.Model):
     name = models.CharField(max_length=255)
+    slug = AutoSlugField(populate_from='name')
     color = models.CharField(max_length=10)
     musical_styles = models.ManyToManyField(MusicalStyle)
     directors = models.ManyToManyField(UserMusicalInstrumentStyle)
@@ -74,8 +76,15 @@ class MusicalGroup(models.Model):
         return self.name
 
 
+def directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return '{0}/songs/{1}'.format(instance.musical_group.pk, filename)
+
+
 class Song(models.Model):
     name = models.CharField(max_length=255)
+    slug = AutoSlugField(populate_from='name')
+    upload = models.FileField(upload_to=directory_path)
     duration = models.DurationField()
     creation_date = models.DateField()
     color = models.CharField(max_length=10)

@@ -1,13 +1,17 @@
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.contrib.auth.decorators import login_required, permission_required
-from apps.musical_group.views import HomeView, MusicalGroupView, MusicalGroupPermanentView, MusicalGroupGuestView, SongView, SongEditView
+from django.contrib.auth.decorators import login_required
+from apps.musical_group.views import HomeView, MusicalGroupView, MusicalGroupPermanentView, \
+    MusicalGroupGuestView, SongView, SongEditView
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
+from conf.protected import protected_song_file
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', auth_views.login, name='login'),
+    url(r'^$', auth_views.login, name='login', kwargs={'redirect_authenticated_user': True}),
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^home/$', login_required(HomeView.as_view()), name='home'),
     url(
@@ -37,3 +41,12 @@ urlpatterns = [
     ),
     url(r'^api/', include('apps.api.urls', namespace='api'))
 ]
+
+
+if settings.DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        protected_song_file,
+        document_root=settings.MEDIA_ROOT,
+    )

@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets
-from apps.api.serializers import UserSerializer, MusicalStyleSerializer, SongSerializer, UserMusicalInstrumentStyleSerializer, MusicalInstrumentSerializer
-from apps.musical_group.models import MusicalStyle, Song, UserMusicalInstrumentStyle, MusicalInstrument
+from apps.api.serializers import UserSerializer, MusicalStyleSerializer, SongSerializer, \
+    UserMusicalInstrumentStyleSerializer, MusicalInstrumentSerializer
+from apps.musical_group.models import MusicalStyle, Song, UserMusicalInstrumentStyle, \
+    MusicalInstrument
 # from rest_framework.views import APIView
 
 
@@ -24,7 +26,7 @@ class MusicalStyleViewSet(viewsets.ReadOnlyModelViewSet):
         if q is not None:
             queryset = queryset.filter(name__icontains=q)
         else:
-            queryset = queryset[:10]
+            queryset = queryset[:100]
         return queryset
 
 

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from apps.musical_group.models import MusicalStyle, Song, MusicalInstrument, UserMusicalInstrumentStyle
+from apps.musical_group.models import MusicalStyle, Song, MusicalInstrument, \
+    UserMusicalInstrumentStyle
 
 
 # Serializers define the API representation.
@@ -33,6 +34,7 @@ class UserMusicalInstrumentStyleSerializer(serializers.ModelSerializer):
     user_id = UserSerializer(write_only=True)
     musical_instruments = MusicalInstrumentSerializer(read_only=True)
     musical_instruments_id = MusicalInstrumentSerializer(write_only=True)
+
     class Meta:
         model = UserMusicalInstrumentStyle
         fields = '__all__'

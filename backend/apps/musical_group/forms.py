@@ -28,7 +28,8 @@ class SongForm(forms.ModelForm):
         }),
     )
 
-    creation_date = forms.DateField(label='Fecha de Creación',
+    creation_date = forms.DateField(
+        label='Fecha de Creación',
         widget=forms.DateInput(attrs={
             'class': 'form-control datepicker',
         }),
@@ -43,7 +44,12 @@ class SongForm(forms.ModelForm):
     class Meta:
         model = Song  # with attr somedata
         fields = '__all__'
-        exclude = ('musical_styles', 'musical_group', 'permanent_musician', 'guest_musician')
+        exclude = (
+            'musical_styles',
+            'musical_group',
+            'permanent_musician',
+            'guest_musician',
+        )
 
     def valid_color(self):
         # send email using the self.cleaned_data dictionary

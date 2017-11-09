@@ -4,7 +4,6 @@ from django.db.models import Q
 from django.shortcuts import redirect
 from apps.musical_group.forms import SongForm
 from django.views.generic.edit import UpdateView
-import json
 
 
 class HomeView(TemplateView):
@@ -80,11 +79,19 @@ class SongView(TemplateView):
             Q(guest_musician__user_id=self.request.user.pk) |
             Q(permanent_musician__user_id=self.request.user.pk)
         ).filter(pk=kwargs['song_id']).first()
+
+        context['has_edit'] = False
+        director_song = Song.objects.filter(
+            musical_group__directors__user_id=self.request.user.pk
+        ).filter(pk=kwargs['song_id']).first()
+        if director_song:
+            context['has_edit'] = True
         return context
 
     def get(self, request, **kwargs):
         context = self.get_context_data(**kwargs)
         if context['song']:
+            context['file'] = context['song'].upload.url
             return self.render_to_response(context)
         return redirect('home')
 
@@ -102,6 +109,7 @@ class SongEditView(UpdateView):
         context['musical_styles'] = context['object'].musical_styles.all()
         context['guest_musician'] = context['object'].guest_musician.all()
         context['permanent_musician'] = context['object'].permanent_musician.all()
+        context['file'] = context['object'].upload.url
         return context
 
     def dispatch(self, request, *args, **kwargs):

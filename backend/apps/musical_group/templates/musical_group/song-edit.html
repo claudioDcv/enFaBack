@@ -3,6 +3,7 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
+
 <form
   data-success="/home/song/{{form.initial.id}}/"
   action="/api/songs/{{form.initial.id}}/"
@@ -22,6 +23,12 @@
         <div class="form-group">
           <label for="color">Color</label>
           {{ form.color }}
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group">
+          <label for="color">Archivo</label>
+          <audio src="{{ file }}" preload="auto" />
         </div>
       </div>
     </div>

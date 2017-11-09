@@ -855,7 +855,7 @@ var jsc = {
 					break;
 				}
 			};
-			
+
 			paletteObj.elm = vmlContainer;
 			paletteObj.draw = drawFunc;
 		}
@@ -926,7 +926,7 @@ var jsc = {
 				grad.color = color1;
 				grad.color2 = color2;
 			};
-			
+
 			sliderObj.elm = vmlContainer;
 			sliderObj.draw = drawFunc;
 		}
@@ -1008,16 +1008,16 @@ var jsc = {
 		this.sliderSize = 16; // px
 		this.crossSize = 8; // px
 		this.closable = false; // whether to display the Close button
-		this.closeText = 'Close';
-		this.buttonColor = '#000000'; // CSS color
+		this.closeText = 'Cerrar';
+		this.buttonColor = '#FFFFFF'; // CSS color
 		this.buttonHeight = 18; // px
 		this.padding = 12; // px
-		this.backgroundColor = '#FFFFFF'; // CSS color
+		this.backgroundColor = '#404040'; // CSS color
 		this.borderWidth = 1; // px
-		this.borderColor = '#BBBBBB'; // CSS color
-		this.borderRadius = 8; // px
+		this.borderColor = '#000000'; // CSS color
+		this.borderRadius = 5; // px
 		this.insetWidth = 1; // px
-		this.insetColor = '#BBBBBB'; // CSS color
+		this.insetColor = '#FFFFFF'; // CSS color
 		this.shadow = true; // whether to display shadow
 		this.shadowBlur = 15; // px
 		this.shadowColor = 'rgba(0,0,0,0.2)'; // CSS color

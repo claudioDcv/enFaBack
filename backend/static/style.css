@@ -138,8 +138,22 @@ td .color-bullet{
   width: 257px !important;
   height: 10px !important;
   background: #444444;
-  margin-top: 170px;
+  margin-top: 220px;
   margin-left: 0 !important;
+}
+
+
+.js-t-hour-container::before {
+  display: block;
+  content: 'Horas';
+}
+.js-t-minute-container::before {
+  display: block;
+  content: 'Minutos';
+}
+.js-t-second-container::before {
+  display: block;
+  content: 'Segundos';
 }
 
 .datepicker.form-control:disabled,
@@ -148,8 +162,15 @@ td .color-bullet{
   border-color: #ced4d9;
 }
 
-.select2, .select2-container {
+.select2 {
   width: 100% !important;
+}
+
+.audiojs {
+    background-image: none;
+}
+.audiojs .play-pause {
+    width: 40px;
 }
 /**
  * Footer Styles

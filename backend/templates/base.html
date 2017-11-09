@@ -29,6 +29,11 @@
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <ul class="navbar-nav mr-auto">
+          {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/">Admin</a>
+          </li>
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="/logout/">{{ user.username }}</a>
           </li>
@@ -39,6 +44,7 @@
 
   <div class="container">
     <div class="row">
+      <div id="msg" class="col-12"></div>
       {% block content %}
       {% endblock %}
     </div>
@@ -47,9 +53,12 @@
     enFa
   </footer>
   <script src="{% static 'node_modules/jquery/dist/jquery.min.js' %}" charset="utf-8"></script>
+  <script src="{% static 'popper.min.js' %}" charset="utf-8"></script>
+  <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.js' %}" charset="utf-8"></script>
   <script src="{% static 'node_modules/select2/dist/js/select2.min.js' %}"></script>
+  <script src="{% static 'audiojs/audiojs/audio.min.js' %}" charset="utf-8"></script>
   <script src="{% static 'js-timepicker-master/js-timepicker.js' %}" charset="utf-8"></script>
-  <script src="{% static 'jscolor-2.0.4/jscolor.min.js' %}" charset="utf-8"></script>
+  <script src="{% static 'jscolor-2.0.4/jscolor.js' %}" charset="utf-8"></script>
   <script src="{% static 'DatePickerX/min/js/DatePickerX.js' %}" charset="utf-8"></script>
   <script src="{% static 'main.js' %}" charset="utf-8"></script>
   {% block scrips %}

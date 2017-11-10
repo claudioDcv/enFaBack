@@ -6,6 +6,10 @@ from apps.musical_group.forms import SongForm
 from django.views.generic.edit import UpdateView
 
 
+class CalendarView(TemplateView):
+    template_name = 'musical_group/calendar.html'
+
+
 class HomeView(TemplateView):
     template_name = 'musical_group/home.html'
 

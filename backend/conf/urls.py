@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from apps.musical_group.views import HomeView, MusicalGroupView, MusicalGroupPermanentView, \
-    MusicalGroupGuestView, SongView, SongEditView
+    MusicalGroupGuestView, SongView, SongEditView, CalendarView
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -39,6 +39,13 @@ urlpatterns = [
         login_required(SongEditView.as_view()),
         name='song-edit',
     ),
+
+    url(
+        r'^home/calendar/$',
+        login_required(CalendarView.as_view()),
+        name='calendar',
+    ),
+
     url(r'^api/', include('apps.api.urls', namespace='api'))
 ]
 

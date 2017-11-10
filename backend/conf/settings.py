@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'apps.musical_group',
+    'apps.event',
     'apps.user',
     'apps.api',
 ]

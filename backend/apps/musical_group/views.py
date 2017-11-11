@@ -6,10 +6,6 @@ from apps.musical_group.forms import SongForm
 from django.views.generic.edit import UpdateView
 
 
-class CalendarView(TemplateView):
-    template_name = 'musical_group/calendar.html'
-
-
 class HomeView(TemplateView):
     template_name = 'musical_group/home.html'
 
@@ -17,13 +13,13 @@ class HomeView(TemplateView):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['user'] = self.request.user
         context['musical_groups'] = MusicalGroup.objects.filter(
-            directors__user_id=self.request.user.pk
+            directors__id=self.request.user.pk
         )
         context['musical_groups_permanent'] = MusicalGroup.objects.filter(
-            permanent_musician__user_id=self.request.user.pk
+            permanent_musician__id=self.request.user.pk
         )
         context['musical_groups_guest'] = MusicalGroup.objects.filter(
-            guest_musician__user_id=self.request.user.pk
+            guest_musician__id=self.request.user.pk
         )
         return context
 
@@ -36,7 +32,7 @@ class MusicalGroupView(TemplateView):
         context['user'] = self.request.user
         context['musical_group'] = MusicalGroup.objects.get(
             pk=kwargs['group_id'],
-            directors__user_id=self.request.user.pk
+            directors__id=self.request.user.pk
         )
         context['songs'] = context['musical_group'].songs.all()
         return context
@@ -50,7 +46,7 @@ class MusicalGroupPermanentView(TemplateView):
         context['user'] = self.request.user
         context['musical_group'] = MusicalGroup.objects.get(
             pk=kwargs['group_id'],
-            permanent_musician__user_id=self.request.user.pk
+            permanent_musician__id=self.request.user.pk
         )
         context['songs'] = context['musical_group'].songs.all()
         return context
@@ -62,12 +58,12 @@ class MusicalGroupGuestView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(MusicalGroupGuestView, self).get_context_data(**kwargs)
         context['user'] = self.request.user
-        # import ipdb; ipdb.set_trace()
+
         context['musical_group'] = MusicalGroup.objects.get(
             pk=kwargs['group_id'],
-            guest_musician__user_id=self.request.user.pk
+            guest_musician__id=self.request.user.pk
         )
-        # import ipdb; ipdb.set_trace()
+
         context['songs'] = context['musical_group'].songs.all()
         return context
 
@@ -79,14 +75,14 @@ class SongView(TemplateView):
         context = super(SongView, self).get_context_data(**kwargs)
         context['user'] = self.request.user
         context['song'] = Song.objects.filter(
-            Q(musical_group__directors__user_id=self.request.user.pk) |
-            Q(guest_musician__user_id=self.request.user.pk) |
-            Q(permanent_musician__user_id=self.request.user.pk)
+            Q(musical_group__directors__id=self.request.user.pk) |
+            Q(guest_musician__id=self.request.user.pk) |
+            Q(permanent_musician__id=self.request.user.pk)
         ).filter(pk=kwargs['song_id']).first()
 
         context['has_edit'] = False
         director_song = Song.objects.filter(
-            musical_group__directors__user_id=self.request.user.pk
+            musical_group__directors__id=self.request.user.pk
         ).filter(pk=kwargs['song_id']).first()
         if director_song:
             context['has_edit'] = True
@@ -119,7 +115,7 @@ class SongEditView(UpdateView):
     def dispatch(self, request, *args, **kwargs):
         """ Making sure that only authors can update stories """
         obj = self.get_object()
-        directors = [user.user_id for user in obj.musical_group.directors.all()]
+        directors = [user.pk for user in obj.musical_group.directors.all()]
         if self.request.user.pk in directors:
             return super(SongEditView, self).dispatch(request, *args, **kwargs)
         return redirect('{}{}/'.format(self.success_url, self.get_object().pk))

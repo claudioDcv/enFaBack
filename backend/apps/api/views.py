@@ -1,15 +1,22 @@
-from django.contrib.auth.models import User
+from apps.user.models import UserInfo
+from apps.user.serializers import UserInfoSerializer
 from rest_framework import viewsets
 from apps.api.serializers import UserSerializer, MusicalStyleSerializer, SongSerializer, \
     UserMusicalInstrumentStyleSerializer, MusicalInstrumentSerializer
 from apps.musical_group.models import MusicalStyle, Song, UserMusicalInstrumentStyle, \
     MusicalInstrument
-# from rest_framework.views import APIView
+from django.contrib.auth.models import User
+
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+class UserInfoViewSet(viewsets.ModelViewSet):
+    queryset = UserInfo.objects.all()
+    serializer_class = UserInfoSerializer
 
 
 class MusicalStyleViewSet(viewsets.ReadOnlyModelViewSet):
@@ -18,8 +25,8 @@ class MusicalStyleViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         """
-        Optionally restricts the returned purchases to a given user,
-        by filtering against a `username` query parameter in the URL.
+        Optionally restricts the returned purchases to a given UserInfo,
+        by filtering against a `UserInfoname` query parameter in the URL.
         """
         queryset = self.queryset
         q = self.request.query_params.get('q', None)

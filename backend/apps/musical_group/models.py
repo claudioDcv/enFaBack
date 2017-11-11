@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from apps.user.models import UserInfo
 from autoslug import AutoSlugField
 
 
@@ -42,6 +43,11 @@ class UserMusicalInstrumentStyle(models.Model):
     class Meta:
         verbose_name = 'Musico Intrumento y Estilo'
         verbose_name_plural = 'Musicos Instrumento y Estilos'
+    #
+    # @property
+    # def popularity(self):
+    #     likes = self.id
+    #     return likes
 
     def __str__(self):
         instruments = [x.name for x in self.musical_instruments.all()]
@@ -56,14 +62,14 @@ class MusicalGroup(models.Model):
     slug = AutoSlugField(populate_from='name')
     color = models.CharField(max_length=10)
     musical_styles = models.ManyToManyField(MusicalStyle)
-    directors = models.ManyToManyField(UserMusicalInstrumentStyle)
+    directors = models.ManyToManyField(User)
     guest_musician = models.ManyToManyField(
-        UserMusicalInstrumentStyle,
+        User,
         related_name='guest_musicians',
         blank=True,
     )
     permanent_musician = models.ManyToManyField(
-        UserMusicalInstrumentStyle,
+        User,
         related_name='permanent_musicians',
         blank=True,
     )
@@ -91,12 +97,12 @@ class Song(models.Model):
     musical_styles = models.ManyToManyField(MusicalStyle)
     musical_group = models.ForeignKey(MusicalGroup, related_name='songs')
     guest_musician = models.ManyToManyField(
-        UserMusicalInstrumentStyle,
+        User,
         related_name='song_guest_musicians',
         blank=True,
     )
     permanent_musician = models.ManyToManyField(
-        UserMusicalInstrumentStyle,
+        User,
         related_name='song_permanent_musicians',
         blank=True,
     )

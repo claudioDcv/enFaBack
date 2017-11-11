@@ -80,7 +80,7 @@
            multiple="multiple"
          >
          {% for guest_music in guest_musician %}
-          <option selected value="{{ guest_music.id }}">{{ guest_music }}</option>
+          <option selected value="{{ guest_music.id }}">{{ guest_music.username }}</option>
          {% endfor %}
          </select>
        </div>
@@ -98,7 +98,7 @@
            multiple="multiple"
          >
          {% for permanent_music in permanent_musician %}
-          <option selected value="{{ permanent_music.id }}">{{ permanent_music }}</option>
+          <option selected value="{{ permanent_music.id }}">{{ permanent_music.username }}</option>
          {% endfor %}
          </select>
        </div>

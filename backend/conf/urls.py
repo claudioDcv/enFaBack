@@ -2,7 +2,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from apps.musical_group.views import HomeView, MusicalGroupView, MusicalGroupPermanentView, \
-    MusicalGroupGuestView, SongView, SongEditView, CalendarView
+    MusicalGroupGuestView, SongView, SongEditView
+from apps.event.views import CalendarView, EventView
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -44,6 +45,12 @@ urlpatterns = [
         r'^home/calendar/$',
         login_required(CalendarView.as_view()),
         name='calendar',
+    ),
+
+    url(
+        r'^home/event/(?P<pk>\w{0,50})/$',
+        login_required(EventView.as_view()),
+        name='event',
     ),
 
     url(r'^api/', include('apps.api.urls', namespace='api'))

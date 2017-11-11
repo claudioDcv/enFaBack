@@ -1,12 +1,14 @@
 from django.db import models
-from apps.musical_group.models import UserMusicalInstrumentStyle
+from apps.user.models import UserInfo
 
 
 class Event(models.Model):
     title = models.CharField(max_length=255)
     start = models.DateTimeField()
     end = models.DateTimeField()
-    users = models.ManyToManyField(UserMusicalInstrumentStyle)
+    color = models.CharField(max_length=10)
+    users = models.ManyToManyField(UserInfo)
+    description = models.TextField()
 
     def __str__(self):
         return self.title

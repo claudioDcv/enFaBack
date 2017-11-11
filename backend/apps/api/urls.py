@@ -1,12 +1,13 @@
 from django.conf.urls import url, include
 from rest_framework import routers
-from apps.api.views import UserViewSet, MusicalStyleViewSet, SongViewSet, \
-    MusicalInstrumentViewSet, UserMusicalInstrumentStyleViewSet
+from apps.api.views import UserInfoViewSet, MusicalStyleViewSet, SongViewSet, \
+    MusicalInstrumentViewSet, UserMusicalInstrumentStyleViewSet, UserViewSet
 from apps.event.views import EventViewSet
 
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
+router.register(r'users-info', UserInfoViewSet)
 router.register(r'musical-styles', MusicalStyleViewSet)
 router.register(r'songs', SongViewSet)
 router.register(r'users-musical-instrument-style', UserMusicalInstrumentStyleViewSet)

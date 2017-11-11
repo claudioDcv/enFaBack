@@ -24,16 +24,16 @@ select2('#id_musical_styles', '/api/musical-styles/',function(e) {
     text: e.name,
   };
 });
-select2('#id_permanent_musician', '/api/users-musical-instrument-style/',function(e) {
+select2('#id_permanent_musician', '/api/users/',function(e) {
   return {
     id: e.id,
-    text: e.user.username,
+    text: e.username,
   };
 });
-select2('#id_guest_musician', '/api/users-musical-instrument-style/',function(e) {
+select2('#id_guest_musician', '/api/users/',function(e) {
   return {
     id: e.id,
-    text: e.user.username,
+    text: e.username,
   };
 });
 

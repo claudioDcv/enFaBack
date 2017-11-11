@@ -191,15 +191,15 @@ $(document).ready(function() {
 // //             selectable: true,
 // //             allDaySlot: false,
 // //
-// //             eventClick:  function(event, jsEvent, view) {  // when some one click on any event
-// //                 endtime = $.fullCalendar.moment(event.end).format('h:mm');
-// //                 starttime = $.fullCalendar.moment(event.start).format('dddd, MMMM Do YYYY, h:mm');
-// //                 var mywhen = starttime + ' - ' + endtime;
-// //                 $('#modalTitle').html(event.title);
-// //                 $('#modalWhen').text(mywhen);
-// //                 $('#eventID').val(event.id);
-// //                 $('#calendarModal').modal();
-// //             },
+            // eventClick:  function(event, jsEvent, view) {  // when some one click on any event
+            //     endtime = $.fullCalendar.moment(event.end).format('h:mm');
+            //     starttime = $.fullCalendar.moment(event.start).format('dddd, MMMM Do YYYY, h:mm');
+            //     var mywhen = starttime + ' - ' + endtime;
+            //     $('#modalTitle').html(event.title);
+            //     $('#modalWhen').text(mywhen);
+            //     $('#eventID').val(event.id);
+            //     $('#calendarModal').modal();
+            // },
 // //
 // //             select: function(start, end, jsEvent) {  // click on empty time slot
 // //                 endtime = $.fullCalendar.moment(end).format('h:mm');
